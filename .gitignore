@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Big generated data / pipeline outputs
+vit_site_data/
+vit_corpus*.json*
+vit_chunks*.json*
+vit_embeddings*.json*
+vit_failed_embeddings*.json*
+vit_vector_state*.json*
+
+# Backups / finals
+*.BAK.*
+*.FINAL.*
+
+# Misc outputs
+*.rtf

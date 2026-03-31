@@ -1,0 +1,10 @@
+beautifulsoup4
+requests
+urllib3
+pypdf
+fastapi
+uvicorn
+numpy
+faiss-cpu
+pydantic
+tqdm

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>CampusBot • Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+    }
+    .login-wrap{
+      width:min(420px, 92vw);
+      overflow:hidden;
+    }
+    .login-top{
+      padding:18px 18px 12px;
+      border-bottom:1px solid rgba(246,247,255,.06);
+    }
+    .login-content{
+      padding:16px 18px 18px;
+    }
+    .login-row{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:10px;
+    }
+    .login-btn{
+      width:100%;
+      margin-top:14px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="panel login-wrap">
+    <div class="login-top">
+      <h1 class="brand">Campus<span>Bot</span></h1>
+      <p class="sub">Enter your credentials to continue.</p>
+    </div>
+
+    <div class="login-content">
+      <label for="user">Username</label>
+      <input id="user" type="text" placeholder="Enter username" autocomplete="username"/>
+
+      <label for="pass">Password</label>
+      <input id="pass" type="password" placeholder="Enter password" autocomplete="current-password"/>
+
+      <div class="login-row">
+        <a class="link" id="forgot">Forgot password?</a>
+      </div>
+
+      <button class="btn-primary login-btn" id="loginBtn">Login</button>
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+  <script src="js/bg-canvas.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

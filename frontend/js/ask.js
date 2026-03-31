@@ -5,7 +5,7 @@ const clearBtn = document.getElementById("clearBtn");
 const sourcesWrap = document.getElementById("sources");
 const sourcesTitle = document.getElementById("sourcesTitle");
 
-const API_URL = "http://localhost:8000/ask";
+const API_URL = "https://arab-payments-light-main.trycloudflare.com/ask";
 
 function clearOutput() {
   answerBox.textContent = "Ask a question to see the answer here.";

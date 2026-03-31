@@ -3,415 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CampusBot Sign Up</title>
-  <style>
-    :root {
-      --bg: #000000;
-      --card: rgba(18, 20, 32, 0.92);
-      --card-border: rgba(167, 139, 250, 0.16);
-      --text: #f6f7ff;
-      --muted: #9ca3b7;
-      --input-bg: rgba(255, 255, 255, 0.06);
-      --input-text: #c4c9d6;
-      --button-top: #b9a8ff;
-      --button-bottom: #4d8dff;
-      --button-border: rgba(255,255,255,0.08);
-      --shadow: 0 24px 60px rgba(0,0,0,0.55);
-      --radius-card: 28px;
-      --radius-input: 14px;
-      --radius-button: 16px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      width: 100%;
-      min-height: 100%;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    body { overflow-x: hidden; }
-
-    .page {
-      min-height: 100vh;
-      position: relative;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(77,141,255,0.20), transparent 20%),
-        radial-gradient(circle at 80% 20%, rgba(143,107,255,0.18), transparent 22%),
-        radial-gradient(circle at 50% 100%, rgba(122,166,255,0.12), transparent 28%),
-        #000;
-      padding: 24px;
-    }
-
-    .header {
-      position: absolute;
-      top: 26px;
-      left: 32px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-    }
-
-    .logo-box {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #b9a8ff 0%, #4d8dff 100%);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
-      display: grid;
-      place-items: center;
-      color: #0b0d14;
-      font-size: 15px;
-      flex: 0 0 36px;
-    }
-
-    .brand-text{
-      color: #ffffff;
-    }
-
-    .brand-text span{
-      color: #b9a8ff;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 520px;
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow);
-      padding: 34px 30px 28px;
-      backdrop-filter: blur(14px);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 27px;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #ffffff;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
-      max-width: 380px;
-      margin: 0 auto 24px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .field {
-      height: 46px;
-      border-radius: var(--radius-input);
-      background: var(--input-bg);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 15px;
-      color: var(--input-text);
-      margin-bottom: 12px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-    }
-
-    .field svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      flex: 0 0 18px;
-    }
-
-    .field input,
-    .field select {
-      border: 0;
-      outline: none;
-      background: transparent;
-      width: 100%;
-      font-size: 14px;
-      color: #eef1ff;
-      font-family: inherit;
-    }
-
-    .field select {
-      appearance: none;
-      cursor: pointer;
-    }
-
-    .field input::placeholder,
-    .field select:invalid {
-      color: var(--input-text);
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    .field-group {
-      margin-bottom: 2px;
-    }
-
-    .help-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin: 2px 2px 18px;
-      flex-wrap: wrap;
-    }
-
-    .checkbox-wrap {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .checkbox-wrap input {
-      accent-color: #b9a8ff;
-      margin-top: 2px;
-    }
-
-    .checkbox-wrap a,
-    .signin-link {
-      color: #b9a8ff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .checkbox-wrap a:hover,
-    .signin-link:hover {
-      text-decoration: underline;
-    }
-
-    .submit {
-      width: 100%;
-      height: 50px;
-      border: 1px solid var(--button-border);
-      border-radius: var(--radius-button);
-      background: linear-gradient(135deg, var(--button-top) 0%, var(--button-bottom) 100%);
-      color: #07080d;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(77,141,255,0.20);
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 18px 0 16px;
-      color: #8e95a9;
-      font-size: 13px;
-      justify-content: center;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      height: 1px;
-      flex: 1;
-      background-image: linear-gradient(to right, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0) 0%);
-      background-size: 8px 1px;
-      background-repeat: repeat-x;
-    }
-
-    .socials {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .social {
-      height: 44px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-      color: #f6f7ff;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .social.google { color: #7aa6ff; }
-    .social.facebook { color: #b9a8ff; }
-    .social.apple { color: #ffffff; }
-
-    .bottom-text {
-      text-align: center;
-      margin-top: 18px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .signup-link {
-      color: #b9a8ff;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .signup-link:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 560px) {
-      .header {
-        top: 18px;
-        left: 18px;
-        font-size: 20px;
-      }
-
-      .card {
-        max-width: 420px;
-        padding: 28px 22px 22px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      h1 { font-size: 24px; }
-      .subtitle { font-size: 14px; }
-    }
-  </style>
+  <title>CampusBot • Sign Up</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div class="page">
-    <div class="header">
-      <div class="logo-box">
-        <i class="fa-solid fa-building-columns"></i>
-      </div>
+  <canvas id="bgCanvas"></canvas>
+  <div class="grid"></div>
+
+  <div class="auth-page">
+    <div class="auth-header">
+      <div class="logo-box"><i class="fa-solid fa-building-columns"></i></div>
       <div class="brand-text">Campus<span>Bot</span></div>
     </div>
 
-    <div class="card">
-
+    <div class="auth-card">
       <h1>Create your account</h1>
       <p class="subtitle">Join CampusBot to access academic support, campus resources, and personalized student assistance.</p>
 
-      <form id="signupForm">
-        <div class="form-grid">
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
-              <input type="text" placeholder="First name" required />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
-              <input type="text" placeholder="Last name" required />
-            </div>
-          </div>
+      <div class="form-grid">
+        <div class="field">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
+          <input id="firstName" type="text" placeholder="First name" />
         </div>
 
         <div class="field">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-.4 4.25-6.54 4.9a1.8 1.8 0 0 1-2.12 0L4.4 8.25V6.8l7.14 5.35a.75.75 0 0 0 .9 0L19.6 6.8Z"/></svg>
-          <input type="email" placeholder="College email address" required />
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
+          <input id="lastName" type="text" placeholder="Last name" />
         </div>
+      </div>
 
-        <div class="form-grid">
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10v2h3a1 1 0 0 1 1 1v15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1h3Zm10 4H7v2h10Zm0 5H7v2h10Zm-4 5H7v2h6Z"/></svg>
-              <input type="text" placeholder="Registration number" required />
-            </div>
-          </div>
+      <div class="field">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-.4 4.25-6.54 4.9a1.8 1.8 0 0 1-2.12 0L4.4 8.25V6.8l7.14 5.35a.75.75 0 0 0 .9 0L19.6 6.8Z"/></svg>
+        <input type="email" placeholder="College email address" />
+      </div>
 
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 1 7l11 5 9-4.09V17h2V7Zm-7 9.18V16l7 4 7-4v-4.82l-7 3.18Z"/></svg>
-              <select required>
-                <option value="" selected disabled>Year of study</option>
-                <option>1st Year</option>
-                <option>2nd Year</option>
-                <option>3rd Year</option>
-                <option>4th Year</option>
-                <option>Postgraduate</option>
-              </select>
-            </div>
-          </div>
+      <div class="form-grid">
+        <div class="field">
+          <svg viewBox="0 0 24 24"><path d="M7 2h10v2h3a1 1 0 0 1 1 1v15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1h3Zm10 4H7v2h10Zm0 5H7v2h10Zm-4 5H7v2h6Z"/></svg>
+          <input type="text" placeholder="Registration number" />
         </div>
 
         <div class="field">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v4H4Zm0 6h16v10H4Zm3 2v2h4v-2Zm0 4v2h7v-2Z"/></svg>
-          <input type="text" placeholder="Department / Program" required />
+          <svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V17h2V7Zm-7 9.18V16l7 4 7-4v-4.82l-7 3.18Z"/></svg>
+          <select>
+            <option value="" selected disabled>Year of study</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>Postgraduate</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v4H4Zm0 6h16v10H4Zm3 2v2h4v-2Zm0 4v2h7v-2Z"/></svg>
+        <input type="text" placeholder="Department / Program" />
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <svg viewBox="0 0 24 24"><path d="M17 8h-1V6a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-6 8.73V17a1 1 0 1 0 2 0v-.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 1 1 4 0v2Z"/></svg>
+          <input id="newPassword" type="password" placeholder="Create password" />
         </div>
 
-        <div class="form-grid">
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h-1V6a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-6 8.73V17a1 1 0 1 0 2 0v-.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 1 1 4 0v2Z"/></svg>
-              <input type="password" placeholder="Create password" required />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <div class="field">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h-1V6a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-6 8.73V17a1 1 0 1 0 2 0v-.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 1 1 4 0v2Z"/></svg>
-              <input type="password" placeholder="Confirm password" required />
-            </div>
-          </div>
+        <div class="field">
+          <svg viewBox="0 0 24 24"><path d="M17 8h-1V6a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-6 8.73V17a1 1 0 1 0 2 0v-.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 1 1 4 0v2Z"/></svg>
+          <input id="confirmPassword" type="password" placeholder="Confirm password" />
         </div>
+      </div>
 
-        <div class="help-row">
-          <label class="checkbox-wrap">
-            <input type="checkbox" required />
-            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
-          </label>
-        </div>
+      <div class="help-row">
+        <label class="checkbox-wrap">
+          <input type="checkbox" />
+          <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+        </label>
+      </div>
 
-        <button class="submit" type="submit">Create Account</button>
+      <button class="submit" id="signupBtn">Create Account</button>
 
-        <div class="divider">Or sign up with</div>
+      <div class="divider">Or sign up with</div>
 
-        <div class="socials">
-          <button class="social google" type="button" aria-label="Sign up with Google">G</button>
-          <button class="social facebook" type="button" aria-label="Sign up with Facebook">f</button>
-          <button class="social apple" type="button" aria-label="Sign up with Apple"></button>
-        </div>
+      <div class="socials">
+        <button class="social google" type="button">G</button>
+        <button class="social facebook" type="button">f</button>
+        <button class="social apple" type="button"></button>
+      </div>
 
-        <div class="bottom-text">
-          Already have an account? <a class="signup-link" href="login.html">Sign in</a>
-        </div>
-      </form>
+      <div class="bottom-text">
+        Already have an account? <a class="signin-link" href="login.html">Sign in</a>
+      </div>
     </div>
   </div>
 
-    <script>
-    document.getElementById('signupForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-    });
+  <footer class="site-footer">
+    <p>Reena Jennifer P • 24BCE1041 • CampusBot</p>
+  </footer>
 
-    document.querySelectorAll('a[href="#"], .social').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-        e.preventDefault();
-        });
-    });
-    </script>
+  <script src="js/bg-canvas.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

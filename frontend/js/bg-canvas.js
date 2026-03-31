@@ -48,12 +48,8 @@ if (canvas) {
       node.x += node.dx;
       node.y += node.dy;
 
-      if (node.x <= 0 || node.x >= canvas.width) {
-        node.dx *= -1;
-      }
-      if (node.y <= 0 || node.y >= canvas.height) {
-        node.dy *= -1;
-      }
+      if (node.x <= 0 || node.x >= canvas.width) node.dx *= -1;
+      if (node.y <= 0 || node.y >= canvas.height) node.dy *= -1;
     }
   }
 
@@ -63,24 +59,16 @@ if (canvas) {
         const dx = nodes[i].x - nodes[j].x;
         const dy = nodes[i].y - nodes[j].y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < MAX_DISTANCE) {
-          drawLine(nodes[i], nodes[j], distance);
-        }
+        if (distance < MAX_DISTANCE) drawLine(nodes[i], nodes[j], distance);
       }
     }
   }
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     updateNodes();
     connectNodes();
-
-    for (const node of nodes) {
-      drawNode(node);
-    }
-
+    for (const node of nodes) drawNode(node);
     requestAnimationFrame(animate);
   }
 

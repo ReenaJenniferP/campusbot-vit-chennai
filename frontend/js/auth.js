@@ -1,43 +1,47 @@
 const loginBtn = document.getElementById("loginBtn");
-const togglePass = document.getElementById("togglePass");
-const passInput = document.getElementById("pass");
 const signupBtn = document.getElementById("signupBtn");
-
-if (togglePass && passInput) {
-  togglePass.addEventListener("click", () => {
-    const isPassword = passInput.type === "password";
-    passInput.type = isPassword ? "text" : "password";
-    togglePass.textContent = isPassword ? "Hide" : "Show";
-  });
-}
+const dashboardName = document.getElementById("dashboardName");
 
 if (loginBtn) {
-  loginBtn.addEventListener("click", () => {
-    const user = document.getElementById("user")?.value?.trim() || "Student";
-    localStorage.setItem("campusbot_user", user);
+  loginBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail")?.value?.trim();
+    const name = email ? email.split("@")[0] : "Student";
+    localStorage.setItem("campusbot_user", name);
     window.location.href = "dashboard.html";
   });
 }
 
 if (signupBtn) {
-  signupBtn.addEventListener("click", () => {
-    const fullName = document.getElementById("fullName")?.value?.trim();
-    const email = document.getElementById("email")?.value?.trim();
-    const regNo = document.getElementById("regNo")?.value?.trim();
-    const newPass = document.getElementById("newPass")?.value || "";
-    const confirmPass = document.getElementById("confirmPass")?.value || "";
+  signupBtn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-    if (!fullName || !email || !regNo || !newPass || !confirmPass) {
-      alert("Please fill in all fields.");
+    const firstName = document.getElementById("firstName")?.value?.trim();
+    const lastName = document.getElementById("lastName")?.value?.trim();
+    const password = document.getElementById("newPassword")?.value || "";
+    const confirmPassword = document.getElementById("confirmPassword")?.value || "";
+
+    if (!firstName || !lastName) {
+      alert("Please fill in your name.");
       return;
     }
 
-    if (newPass !== confirmPass) {
+    if (!password || !confirmPassword) {
+      alert("Please enter and confirm your password.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
 
-    localStorage.setItem("campusbot_user", fullName);
+    localStorage.setItem("campusbot_user", `${firstName} ${lastName}`);
     window.location.href = "dashboard.html";
   });
+}
+
+if (dashboardName) {
+  const savedUser = localStorage.getItem("campusbot_user");
+  if (savedUser) dashboardName.textContent = savedUser;
 }

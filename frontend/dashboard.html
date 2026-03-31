@@ -5,388 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusBot • Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    :root{
-      --bg:#000000;
-      --text:#f6f7ff;
-      --muted:#9ca3b7;
-      --line:rgba(255,255,255,0.10);
-      --line-soft:rgba(255,255,255,0.06);
-      --panel:rgba(18,20,32,0.82);
-      --panel-2:rgba(255,255,255,0.04);
-      --accent:#b9a8ff;
-      --accent-2:#4d8dff;
-      --shadow:0 24px 60px rgba(0,0,0,0.55);
-      --radius-xl:28px;
-      --radius-lg:20px;
-      --radius-md:16px;
-      --radius-sm:14px;
-    }
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    html, body{
-      width:100%;
-      min-height:100%;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    body{
-      overflow-x:hidden;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(77,141,255,0.20), transparent 20%),
-        radial-gradient(circle at 80% 20%, rgba(143,107,255,0.18), transparent 22%),
-        radial-gradient(circle at 50% 100%, rgba(122,166,255,0.12), transparent 28%),
-        #000;
-    }
-
-    #bgCanvas{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      z-index:0;
-      pointer-events:none;
-    }
-
-    .grid{
-      position:fixed;
-      inset:0;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size:70px 70px;
-      opacity:.14;
-      pointer-events:none;
-      mask-image:radial-gradient(700px 500px at 50% 20%, black 30%, transparent 70%);
-      z-index:1;
-    }
-
-    .site-header,
-    .page,
-    .site-footer{
-      position:relative;
-      z-index:2;
-    }
-
-    .site-header{
-      width:min(1180px, calc(100vw - 32px));
-      margin:20px auto 0;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      border:1px solid var(--line-soft);
-      border-radius:18px;
-      background:rgba(0,0,0,0.45);
-      backdrop-filter:blur(14px);
-      box-shadow:0 18px 45px rgba(0,0,0,0.35);
-    }
-
-    .brand-link{
-      text-decoration:none;
-    }
-
-    .brand-wrap{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .brand-badge{
-      width:38px;
-      height:38px;
-      border-radius:10px;
-      background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-      box-shadow:0 8px 16px rgba(0,0,0,0.25);
-      display:grid;
-      place-items:center;
-      color:#0b0d14;
-      font-size:16px;
-      flex:0 0 38px;
-    }
-
-    .brand-text{
-      color:#ffffff;
-      font-size:24px;
-      font-weight:700;
-      letter-spacing:-0.03em;
-    }
-
-    .brand-text span{
-      color:var(--accent);
-    }
-
-    .nav-links{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      color:var(--muted);
-      font-size:14px;
-      font-weight:500;
-      padding:10px 16px;
-      border-radius:12px;
-      transition:.2s ease;
-    }
-
-    .nav-links a:hover{
-      color:var(--text);
-      background:rgba(255,255,255,0.04);
-    }
-
-    .nav-links a.active{
-      color:#07080d;
-      background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-      font-weight:700;
-      box-shadow:0 10px 24px rgba(77,141,255,0.22);
-    }
-
-    .page{
-      width:min(1180px, calc(100vw - 32px));
-      margin:22px auto;
-      padding-bottom:18px;
-    }
-
-    .panel{
-      border:1px solid rgba(167,139,250,0.14);
-      border-radius:var(--radius-xl);
-      background:var(--panel);
-      backdrop-filter:blur(14px);
-      box-shadow:var(--shadow);
-    }
-
-    .eyebrow{
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--accent);
-      font-weight:700;
-      margin-bottom:14px;
-    }
-
-    .dashboard-hero{
-      padding:30px 30px 28px;
-      margin-bottom:18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .dashboard-hero::before{
-      content:"";
-      position:absolute;
-      right:-90px;
-      top:-70px;
-      width:260px;
-      height:260px;
-      background:radial-gradient(circle, rgba(185,168,255,0.18) 0%, rgba(77,141,255,0.10) 45%, transparent 72%);
-      pointer-events:none;
-    }
-
-    .dashboard-hero > div,
-    .dashboard-hero > a{
-      position:relative;
-      z-index:1;
-    }
-
-    .dashboard-hero h1{
-      font-size:clamp(34px, 5vw, 56px);
-      line-height:1.02;
-      letter-spacing:-0.045em;
-      margin-bottom:12px;
-    }
-
-    .dashboard-hero h1 span{
-      color:var(--accent);
-    }
-
-    .dashboard-hero p{
-      max-width:700px;
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.7;
-    }
-
-    .btn-primary{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      border:none;
-      min-width:150px;
-      height:50px;
-      padding:0 20px;
-      border-radius:16px;
-      background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-      color:#07080d;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer;
-      box-shadow:0 10px 24px rgba(77,141,255,0.20);
-      transition:.18s ease;
-    }
-
-    .btn-primary:hover{
-      transform:translateY(-1px);
-    }
-
-    .dashboard-grid{
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:18px;
-      margin-bottom:18px;
-    }
-
-    .dash-card{
-      text-decoration:none;
-      color:inherit;
-      padding:22px 22px 20px;
-      min-height:180px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      transition:.18s ease;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    }
-
-    .dash-card:hover{
-      transform:translateY(-2px);
-      border-color:rgba(185,168,255,0.24);
-      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
-    }
-
-    .dash-icon{
-      width:46px;
-      height:46px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      font-size:18px;
-      font-weight:800;
-      color:#07080d;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow:0 10px 24px rgba(77,141,255,0.20);
-      margin-bottom:20px;
-    }
-
-    .dash-card h3{
-      font-size:22px;
-      line-height:1.15;
-      letter-spacing:-0.02em;
-      margin-bottom:10px;
-    }
-
-    .dash-card p{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
-      max-width:90%;
-    }
-
-    .stats-grid{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:18px;
-    }
-
-    .stat-card{
-      padding:24px 22px;
-      min-height:160px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    }
-
-    .stat-label{
-      font-size:12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--accent);
-      font-weight:700;
-      margin-bottom:12px;
-    }
-
-    .stat-card h2{
-      font-size:42px;
-      line-height:1;
-      letter-spacing:-0.04em;
-      margin-bottom:10px;
-    }
-
-    .stat-card p{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-      max-width:220px;
-    }
-
-    .site-footer{
-      width:min(1180px, calc(100vw - 32px));
-      margin:0 auto 22px;
-      text-align:center;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    @media (max-width: 900px){
-      .dashboard-grid,
-      .stats-grid{
-        grid-template-columns:1fr;
-      }
-
-      .dash-card,
-      .stat-card{
-        min-height:auto;
-      }
-    }
-
-    @media (max-width: 700px){
-      .site-header{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .dashboard-hero{
-        flex-direction:column;
-        align-items:flex-start;
-        padding:26px 22px 24px;
-      }
-
-      .dashboard-grid{
-        gap:14px;
-      }
-
-      .stats-grid{
-        gap:14px;
-      }
-
-      .dash-card,
-      .stat-card{
-        padding:20px 18px;
-      }
-
-      .dashboard-hero p{
-        font-size:14px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
@@ -395,9 +14,7 @@
   <header class="site-header">
     <a class="brand-link" href="index.html">
       <span class="brand-wrap">
-        <span class="brand-badge">
-          <i class="fa-solid fa-building-columns"></i>
-        </span>
+        <span class="brand-badge"><i class="fa-solid fa-building-columns"></i></span>
         <span class="brand-text">Campus<span>Bot</span></span>
       </span>
     </a>
@@ -417,40 +34,32 @@
         <h1>Hello, <span id="dashboardName">Student</span></h1>
         <p>Use this dashboard to access CampusBot modules and explore the core project sections in one clean interface.</p>
       </div>
-      <a href="chat.html" class="btn-primary">Open Chat</a>
+      <a href="chat.html" class="btn-primary" style="min-width:150px;height:50px;padding:0 20px;border-radius:16px;">Open Chat</a>
     </section>
 
     <section class="dashboard-grid">
       <a class="dash-card panel" href="chat.html">
-        <div>
-          <div class="dash-icon">✦</div>
-          <h3>Ask a Question</h3>
-          <p>Open the chatbot interface and explore prompt suggestions, student queries, and assistant responses.</p>
-        </div>
+        <div class="dash-icon">✦</div>
+        <h3>Ask a Question</h3>
+        <p>Open the chatbot interface and explore prompt suggestions and assistant responses.</p>
       </a>
 
       <a class="dash-card panel" href="about.html">
-        <div>
-          <div class="dash-icon">◎</div>
-          <h3>About Project</h3>
-          <p>Read about CampusBot, the design choices, project purpose, and the overall system experience.</p>
-        </div>
+        <div class="dash-icon">◎</div>
+        <h3>About Project</h3>
+        <p>Read about CampusBot, the design choices, project purpose, and the overall system experience.</p>
       </a>
 
       <a class="dash-card panel" href="signup.html">
-        <div>
-          <div class="dash-icon">＋</div>
-          <h3>Create Account</h3>
-          <p>Explore the sign-up flow, form design, and modern student onboarding experience.</p>
-        </div>
+        <div class="dash-icon">＋</div>
+        <h3>Create Account</h3>
+        <p>Explore the sign-up flow and modern student onboarding experience.</p>
       </a>
 
       <a class="dash-card panel" href="index.html">
-        <div>
-          <div class="dash-icon">↩</div>
-          <h3>Back to Landing</h3>
-          <p>Return to the home page and review the landing experience and core feature sections.</p>
-        </div>
+        <div class="dash-icon">↩</div>
+        <h3>Back to Landing</h3>
+        <p>Return to the home page and review the landing experience.</p>
       </a>
     </section>
 
@@ -464,7 +73,7 @@
       <div class="stat-card panel">
         <div class="stat-label">Experience</div>
         <h2>UI</h2>
-        <p>Minimal multi-page student portal feel with a modern glass-style interface.</p>
+        <p>Minimal multi-page student portal feel with a modern interface.</p>
       </div>
 
       <div class="stat-card panel">
@@ -479,44 +88,7 @@
     <p>Reena Jennifer P • 24BCE1041 • CampusBot</p>
   </footer>
 
-  <script>
-    const canvas = document.getElementById("bgCanvas");
-    const ctx = canvas.getContext("2d");
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth * devicePixelRatio;
-      canvas.height = window.innerHeight * devicePixelRatio;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-      drawCanvas();
-    }
-
-    function drawCanvas() {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      const dots = 60;
-      for (let i = 0; i < dots; i++) {
-        const x = (i * 137) % window.innerWidth;
-        const y = (i * 91) % window.innerHeight;
-        const r = (i % 3) + 1;
-
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = i % 2 === 0
-          ? "rgba(185,168,255,0.12)"
-          : "rgba(77,141,255,0.10)";
-        ctx.fill();
-      }
-    }
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    const savedName = localStorage.getItem("campusbot_name");
-    if (savedName && savedName.trim()) {
-      document.getElementById("dashboardName").textContent = savedName;
-    }
-  </script>
+  <script src="js/bg-canvas.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

@@ -7,6 +7,8 @@ const promptChips = document.querySelectorAll(".prompt-chip");
 const statusPill = document.getElementById("statusPill");
 const statusText = document.getElementById("statusText");
 
+let statusInitialized = false;
+
 function scrollChatToBottom() {
   if (chatWindow) {
     chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -41,17 +43,34 @@ function addMessage(text, type, extraClass = "") {
   return row;
 }
 
-async function checkServerStatus() {
+function setStatusOnline() {
+  if (!statusPill || !statusText) return;
+  statusPill.classList.remove("offline");
+  statusPill.classList.add("online");
+  statusText.textContent = "Online";
+}
+
+function setStatusOffline() {
+  if (!statusPill || !statusText) return;
+  statusPill.classList.remove("online");
+  statusPill.classList.add("offline");
+  statusText.textContent = "Offline";
+}
+
+async function checkServerStatus(showChecking = false) {
   if (!statusPill || !statusText) return;
 
-  statusText.textContent = "Checking...";
+  if (showChecking && !statusInitialized) {
+    statusText.textContent = "Checking...";
+  }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 4000);
+  const timeoutId = setTimeout(() => controller.abort(), 1200);
 
   try {
     const response = await fetch(`${BACKEND_BASE}/health`, {
       method: "GET",
+      cache: "no-store",
       signal: controller.signal
     });
 
@@ -59,14 +78,12 @@ async function checkServerStatus() {
 
     if (!response.ok) throw new Error("Health check failed");
 
-    statusPill.classList.remove("offline");
-    statusPill.classList.add("online");
-    statusText.textContent = "Online";
+    setStatusOnline();
+    statusInitialized = true;
   } catch (err) {
     clearTimeout(timeoutId);
-    statusPill.classList.remove("online");
-    statusPill.classList.add("offline");
-    statusText.textContent = "Offline";
+    setStatusOffline();
+    statusInitialized = true;
     console.error("Health check failed:", err);
   }
 }
@@ -95,16 +112,16 @@ async function sendMessage() {
 
     if (thinkingRow) thinkingRow.remove();
     addMessage(data.answer || "No response received.", "bot");
+    setStatusOnline();
   } catch (err) {
     if (thinkingRow) thinkingRow.remove();
     addMessage(
       "I’m finding an answer, but I couldn’t connect to the backend right now. Please make sure the FastAPI server is running.",
       "bot"
     );
+    setStatusOffline();
     console.error("Backend request failed:", err);
   }
-
-  await checkServerStatus();
 }
 
 if (sendChatBtn) {
@@ -132,6 +149,6 @@ promptChips.forEach((chip) => {
 
 if (chatWindow) {
   addMessage("Hi! Ask me anything about VIT Chennai.", "bot");
-  checkServerStatus();
-  setInterval(checkServerStatus, 15000);
+  checkServerStatus(true);
+  setInterval(() => checkServerStatus(false), 15000);
 }

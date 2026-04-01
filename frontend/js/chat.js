@@ -1,4 +1,4 @@
-const BACKEND_BASE = "https://lamps-gmt-builds-concerns.trycloudflare.com";
+const BACKEND_BASE = "https://dover-page-pas-brighton.trycloudflare.com";
 
 const chatWindow = document.getElementById("chatWindow");
 const chatInput = document.getElementById("chatInput");
@@ -7,14 +7,23 @@ const promptChips = document.querySelectorAll(".prompt-chip");
 const statusPill = document.getElementById("statusPill");
 const statusText = document.getElementById("statusText");
 
-function addMessage(text, type) {
-  if (!chatWindow) return;
+function scrollChatToBottom() {
+  if (chatWindow) {
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+}
+
+function addMessage(text, type, extraClass = "") {
+  if (!chatWindow) return null;
 
   const row = document.createElement("div");
   row.className = "message-row " + (type === "user" ? "user-row" : "bot-row");
 
   const message = document.createElement("div");
-  message.className = "message " + (type === "user" ? "user-message" : "bot-message");
+  message.className =
+    "message " +
+    (type === "user" ? "user-message" : "bot-message") +
+    (extraClass ? ` ${extraClass}` : "");
 
   const meta = document.createElement("div");
   meta.className = "message-meta";
@@ -27,7 +36,9 @@ function addMessage(text, type) {
   message.appendChild(content);
   row.appendChild(message);
   chatWindow.appendChild(row);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  scrollChatToBottom();
+
+  return row;
 }
 
 async function checkServerStatus() {
@@ -56,6 +67,8 @@ async function sendMessage() {
   addMessage(text, "user");
   chatInput.value = "";
 
+  const thinkingRow = addMessage("Thinking...", "bot", "thinking-message");
+
   try {
     const response = await fetch(`${BACKEND_BASE}/ask`, {
       method: "POST",
@@ -66,10 +79,13 @@ async function sendMessage() {
     if (!response.ok) throw new Error("Backend request failed");
 
     const data = await response.json();
+
+    if (thinkingRow) thinkingRow.remove();
     addMessage(data.answer || "No response received.", "bot");
     checkServerStatus();
   } catch {
-    addMessage("I couldn’t connect to the backend right now. Please make sure the FastAPI server is running.", "bot");
+    if (thinkingRow) thinkingRow.remove();
+    addMessage("I’m finding an answer, but I couldn’t connect to the backend right now. Please make sure the FastAPI server is running.", "bot");
     checkServerStatus();
   }
 }

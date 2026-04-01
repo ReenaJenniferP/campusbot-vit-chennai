@@ -115,6 +115,6 @@ promptChips.forEach((chip) => {
 
 if (chatWindow) {
   addMessage("Hi! Ask me anything about VIT Chennai.", "bot");
-  // checkServerStatus();
-  // setInterval(checkServerStatus, 15000);
+  checkServerStatus();
+  setInterval(checkServerStatus, 15000);
 }

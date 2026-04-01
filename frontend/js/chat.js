@@ -44,17 +44,30 @@ function addMessage(text, type, extraClass = "") {
 async function checkServerStatus() {
   if (!statusPill || !statusText) return;
 
+  statusText.textContent = "Checking...";
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
+
   try {
-    const response = await fetch(`${BACKEND_BASE}/health`, { method: "GET" });
+    const response = await fetch(`${BACKEND_BASE}/health`, {
+      method: "GET",
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
     if (!response.ok) throw new Error("Health check failed");
 
     statusPill.classList.remove("offline");
     statusPill.classList.add("online");
     statusText.textContent = "Online";
-  } catch {
+  } catch (err) {
+    clearTimeout(timeoutId);
     statusPill.classList.remove("online");
     statusPill.classList.add("offline");
     statusText.textContent = "Offline";
+    console.error("Health check failed:", err);
   }
 }
 
@@ -82,12 +95,16 @@ async function sendMessage() {
 
     if (thinkingRow) thinkingRow.remove();
     addMessage(data.answer || "No response received.", "bot");
-    checkServerStatus();
-  } catch {
+  } catch (err) {
     if (thinkingRow) thinkingRow.remove();
-    addMessage("I’m finding an answer, but I couldn’t connect to the backend right now. Please make sure the FastAPI server is running.", "bot");
-    checkServerStatus();
+    addMessage(
+      "I’m finding an answer, but I couldn’t connect to the backend right now. Please make sure the FastAPI server is running.",
+      "bot"
+    );
+    console.error("Backend request failed:", err);
   }
+
+  await checkServerStatus();
 }
 
 if (sendChatBtn) {

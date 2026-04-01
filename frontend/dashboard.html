@@ -4,28 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusBot • Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
   <div class="grid"></div>
 
-  <header class="site-header">
-    <a class="brand-link" href="index.html">
-      <span class="brand-wrap">
-        <span class="brand-badge"><i class="fa-solid fa-building-columns"></i></span>
-        <span class="brand-text">Campus<span>Bot</span></span>
-      </span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="chat.html">Chat</a>
-      <a href="dashboard.html" class="active">Dashboard</a>
-    </nav>
-  </header>
+  <div id="siteHeader"></div>
 
   <main class="page dashboard-page">
     <section class="dashboard-hero panel">
@@ -88,6 +73,8 @@
     <p>Reena Jennifer P • 24BCE1041 • CampusBot</p>
   </footer>
 
+  <script src="js/site-header.js"></script>
+  <script> renderSiteHeader("dashboard"); </script>
   <script src="js/bg-canvas.js"></script>
   <script src="js/auth.js"></script>
 </body>

@@ -4,34 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusBot</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
   <div class="grid"></div>
 
+  <div id="siteHeader"></div>
+
   <div class="page page-landing">
     <div class="container">
-      <header class="landing-header">
-        <div class="brand">
-          <div class="brand-badge"><i class="fa-solid fa-building-columns"></i></div>
-          <div class="brand-text">Campus<span>Bot</span></div>
-        </div>
-
-        <nav class="nav-pill">
-          <a href="#" class="active">Home</a>
-          <a href="about.html">About</a>
-          <a href="chat.html">Chat</a>
-          <a href="dashboard.html">Dashboard</a>
-        </nav>
-
-        <div class="auth-links">
-          <a href="login.html">Log in</a>
-          <a href="signup.html" class="signup">Sign Up</a>
-        </div>
-      </header>
-
       <section class="hero">
         <h1>Faster Answers. Smarter <span>Experience.</span></h1>
         <p>
@@ -40,7 +22,26 @@
         </p>
 
         <div class="cta-row">
-          <a class="btn primary" href="chat.html">Ask CampusBot</a>
+          <a class="btn secondary" href="login.html">Log in</a>
+          <a class="btn primary" href="signup.html">Sign Up</a>
+        </div>
+        <div class="campus-map panel">
+          <img src="images/vit-campus.jpg" alt="Aerial view of VIT campus" class="campus-map-image" />
+
+          <button class="campus-spot library-spot" type="button">
+            <span class="spot-dot"></span>
+            <span class="spot-tip">Library</span>
+          </button>
+
+          <button class="campus-spot auditorium-spot" type="button">
+            <span class="spot-dot"></span>
+            <span class="spot-tip">Auditorium</span>
+          </button>
+
+          <button class="campus-spot academic-spot" type="button">
+            <span class="spot-dot"></span>
+            <span class="spot-tip">Academic Blocks</span>
+          </button>
         </div>
       </section>
     </div>
@@ -50,6 +51,8 @@
     <p>Reena Jennifer P • 24BCE1041 • CampusBot</p>
   </footer>
 
+  <script src="js/site-header.js"></script>
+  <script> renderSiteHeader("home"); </script>
   <script src="js/bg-canvas.js"></script>
 </body>
 </html>

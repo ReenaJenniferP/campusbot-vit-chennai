@@ -1,4 +1,4 @@
-const BACKEND_BASE = "https://dover-page-pas-brighton.trycloudflare.com";
+const BACKEND_BASE = "https://impact-das-suites-set.trycloudflare.com";
 
 const chatWindow = document.getElementById("chatWindow");
 const chatInput = document.getElementById("chatInput");
@@ -115,6 +115,6 @@ promptChips.forEach((chip) => {
 
 if (chatWindow) {
   addMessage("Hi! Ask me anything about VIT Chennai.", "bot");
-  checkServerStatus();
-  setInterval(checkServerStatus, 15000);
+  // checkServerStatus();
+  // setInterval(checkServerStatus, 15000);
 }

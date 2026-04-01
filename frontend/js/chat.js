@@ -1,4 +1,4 @@
-const BACKEND_BASE = "https://impact-das-suites-set.trycloudflare.com";
+const BACKEND_BASE = "https://burning-obituaries-ebony-cancellation.trycloudflare.com";
 
 const chatWindow = document.getElementById("chatWindow");
 const chatInput = document.getElementById("chatInput");
